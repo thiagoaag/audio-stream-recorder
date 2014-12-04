@@ -2,13 +2,10 @@
 "name": "audio-recorder",
 "version": "0.0.1",
 "description": "module to record audio stream",
-"author": {
-	"name": "Thiago Amarante",
-	"email": "thiagoaag@gmail.com"
-	},
+"author": "Thiago Amarante <thiagoaag@gmail.com>",
 "repository": {
 	"type": "git",
-	"url": "https://bitbucket.org/thiagoaa/audio-recorder"
+	"url": "https://bitbucket.org/thiagoaa/audio-stream-recorder"
 	},
 "private": "false",
 "main": "vlc.js",
