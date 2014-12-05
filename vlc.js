@@ -18,7 +18,7 @@ module.exports = function(options, callback){
 			//console.log(error.stack);
 			console.log('Error code: ' + error.code);
 			console.log('Signal received: ' + error.signal);
-			return callback('Failed command not found');
+			return callback('Failed: command [clvc] not found');
 		}
 	});
 
@@ -42,7 +42,7 @@ module.exports = function(options, callback){
 		}
 
 		if(logText.indexOf('Close') !=  -1){
-					log('Finished: ' + path);
+			log('Finished');
 			callback(path);
 		}
 	});
