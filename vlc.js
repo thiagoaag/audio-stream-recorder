@@ -15,9 +15,10 @@ module.exports = function(options, callback){
 	var vlc = exec(cmd, function(error, stdout, stderr){
 
 		if(error){
-			console.log(error.stack);
+			//console.log(error.stack);
 			console.log('Error code: ' + error.code);
 			console.log('Signal received: ' + error.signal);
+			return callback('Failed command not found');
 		}
 	});
 
@@ -36,11 +37,14 @@ module.exports = function(options, callback){
 	});
 
 	vlc.on('exit', function(code){
-		if(logText.indexOf('connection failed') != -1)
+		if(logText.indexOf('connection failed') != -1){
 			log('Connection failed: ' + url);
-		else
-			log('Finished: ' + path);
+		}
+
+		if(logText.indexOf('Close') !=  -1){
+					log('Finished: ' + path);
 			callback(path);
+		}
 	});
 
 };

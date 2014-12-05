@@ -1,5 +1,5 @@
 {
-"name": "audio-recorder",
+"name": "audio-stream-recorder",
 "version": "0.0.1",
 "description": "module to record audio stream",
 "author": "Thiago Amarante <thiagoaag@gmail.com>",
