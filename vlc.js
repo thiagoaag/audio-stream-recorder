@@ -8,7 +8,7 @@ module.exports = function(options, callback){
 	var timeRecord = options.time || 5;
 	var path = options.path || "/tmp/radio_" + new Date().getTime() + ".ogg";	
 	
-	var args = url + " --run-time=" + timeRecord + " --clock-synchro=1 vlc://quit --sout='#transcode{acodec=vorbi,ab=128,channels=1,samplerate=44100}:std{access=file,mux=ogg,dst=" + path + "'}";
+	var args = url + " --run-time=" + timeRecord + " vlc://quit --sout='#transcode{acodec=vorbi,ab=128,channels=1,samplerate=44100}:std{access=file,mux=ogg,dst=" + path + "'}";
 
 	var cmd = 'cvlc ' + args;
 	
