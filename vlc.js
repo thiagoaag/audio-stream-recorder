@@ -3,15 +3,21 @@ var logText = '';
 	
 module.exports = function(options, callback){
 	
-
+	var radio = options.radioName;
 	var url = options.url;
 	var timeRecord = options.time || 5;
 	var path = options.path || "/tmp/radio_" + new Date().getTime() + ".ogg";	
 	
-	var args = url + " --run-time=" + timeRecord + " vlc://quit --sout='#transcode{acodec=vorbi,ab=128,channels=1,samplerate=44100}:std{access=file,mux=ogg,dst=" + path + "'}";
-
-	var cmd = 'cvlc ' + args;
+var cmd = "cvlc -vvv ";
+	cmd += "--run-time=" + timeRecord + " ";
+	//cmd += "--stop-time=" + timeRecord + " ";
+	cmd += url + " ";
+	cmd += "--sout='#transcode{acodec=vorbi,ab=128,channels=1,samplerate=44100}:";
+	cmd += "std{access=file,mux=ogg,dst=" + path + "}' ";
+	cmd += "vlc://quit";
 	
+	//console.log("cmd: " + cmd);
+
 	var vlc = exec(cmd, function(error, stdout, stderr){
 
 		if(error){
@@ -29,31 +35,35 @@ module.exports = function(options, callback){
 	
 	vlc.stderr.on('data', function(data){
 			
-		log("STDERR: " + data);
-		/*
-		if(data.indexOf('Raw-audio server found') !=  -1){
-			log("Initing record:\n" + url);
-		}
-		*/
-		logText += data;
+		//log("STDERR: " + data);
 		
+		logText += data;
+
+		if(data.indexOf('writing header') != -1 ){
+			log("\n\nIniting record:\n" + radio + "\n\n");
+		}
+
+		if( data.indexOf('is unable to open') != -1){ 
+			//|| data.indexOf('is unable to open') != -1 ){
+			log('Connection failed: ' + url);
+		}
+
 	});
 
 		
 	vlc.on('exit', function(code){
-		if( logText.indexOf('is unable to open') != -1 || logText.indexOf("404") != -1 || logText.indexOf('open') == -1 ){
+		if( logText.indexOf('demux error: Failed to connect') != -1){ 
+			//|| data.indexOf('is unable to open') != -1 ){
 			log('Connection failed: ' + url);
 		}
 		else{
-			log('Finished');
-			callback(path);
+			log('\n\nFinished');
+			callback(radio + "\n" + path);
 		}
 	});
 
-
 };
+	
 	function log(data){
 		console.log(data);
 	};
-	
-
