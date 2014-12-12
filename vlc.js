@@ -1,20 +1,21 @@
 var exec = require('child_process').exec;
-var logText = '';
+
 	
 module.exports = function(options, callback){
-	
+
+	var logText = '';	
 	var radio = options.radioName;
 	var url = options.url;
 	var timeRecord = options.time || 5;
-	var path = options.path || "/tmp/radio_" + new Date().getTime() + ".ogg";	
+	var path = options.path || "/tmp/radio_" + radio + "_" + new Date().getTime() + ".ogg";	
 	
-var cmd = "cvlc -vvv ";
-	cmd += "--run-time=" + timeRecord + " ";
-	//cmd += "--stop-time=" + timeRecord + " ";
-	cmd += url + " ";
-	cmd += "--sout='#transcode{acodec=vorbi,ab=128,channels=1,samplerate=44100}:";
-	cmd += "std{access=file,mux=ogg,dst=" + path + "}' ";
-	cmd += "vlc://quit";
+var cmd = "cvlc -vvv";
+	cmd += " --run-time=" + timeRecord;
+	//cmd += " --stop-time=" + timeRecord;
+	cmd +=  " " + url;
+	cmd += " --sout='#transcode{acodec=vorbi,ab=128,channels=1,samplerate=44100}:";
+	cmd += "std{access=file,mux=ogg,dst=" + path + "}'";
+	cmd += " vlc://quit";
 	
 	//console.log("cmd: " + cmd);
 
@@ -43,17 +44,11 @@ var cmd = "cvlc -vvv ";
 			log("\n\nIniting record:\n" + radio + "\n\n");
 		}
 
-		if( data.indexOf('is unable to open') != -1){ 
-			//|| data.indexOf('is unable to open') != -1 ){
-			log('Connection failed: ' + url);
-		}
-
 	});
 
 		
 	vlc.on('exit', function(code){
-		if( logText.indexOf('demux error: Failed to connect') != -1){ 
-			//|| data.indexOf('is unable to open') != -1 ){
+		if( logText.indexOf('demux error: Failed to connect') != -1 || logText.indexOf('is unable to open') != -1 ){
 			log('Connection failed: ' + url);
 		}
 		else{
