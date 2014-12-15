@@ -3,11 +3,11 @@ var exec = require('child_process').exec;
 	
 module.exports = function(options, callback){
 
-	var logText = '';	
-	var radio = options.radioName;
+	var logText = "";	
+	var radio = options.radioName || "record";
 	var url = options.url;
 	var timeRecord = options.time || 5;
-	var path = options.path || "/tmp/radio_" + radio + "_" + new Date().getTime() + ".ogg";	
+	var path = options.path || "/tmp/radio_" + radio + "_" + new Date().toISOString().slice(0, 23).replace("T","_") + ".ogg";	
 	
 var cmd = "cvlc -vvv";
 	cmd += " --run-time=" + timeRecord;
