@@ -6,12 +6,13 @@ function log(data){
 };
 
 //// GOOD LINKs ////
-vlc({"url": "http://listen.trance.fm/1/128", "time": 60}, log );
+vlc({"id": 201401, "url": "http://listen.trance.fm/1/128", "webSource": "Trance FM", "time": 60}, log );
+vlc({"url": "http://listen.trance.fm/1/128", "webSource": "Trance FM", "time": 10}, log );
 //vlc({"url": "rtsp://155.obj.netromedia.net/capitalfmflash/capitalfmflash"}, log);
-//vlc({"radioName": "Trance.fm", "url": "http://listen.trance.fm/1/128"}, log );
+//vlc({"webSource": "Trance.fm", "url": "http://listen.trance.fm/1/128"}, log );
  
-vlc({"radioName": "Radio Difusora Fm", "url": "http://170.75.153.34:11794/"}, log);
+//vlc({"webSource": "Radio Difusora Fm", "url": "http://170.75.153.34:11794/"}, log);
 
 //// FAIL LINKs ////
 //vlc({"url": "http://127.0.0.1:8080/live", "time": 300}, log);
-//vlc({"radioName": "Localhost", "url": "rtsp://127.0.0.1:8554/live-rtsp"}, log);
+//vlc({"webSource": "Localhost", "url": "rtsp://127.0.0.1:8554/live-rtsp"}, log);

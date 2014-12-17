@@ -3,12 +3,24 @@ var exec = require('child_process').exec;
 	
 module.exports = function(options, callback){
 
-	var logText = "";	
-	var radio = options.radioName || "record";
-	var url = options.url;
-	var timeRecord = options.time || 5;
-	var path = options.path || "/tmp/radio_" + radio + "_" + new Date().toISOString().slice(0, 23).replace("T","_") + ".ogg";	
+var webSource = options.webSource || "record";
+	webSource = webSource.replace(/\s/g, "");
+
+var idSource = options.id || webSource;
+
+var url = options.url;
+
+if(url === undefined){
+	return callback('Failed: url not defined');
+}
 	
+var timeRecord = options.time || 5;
+	
+var path = options.path || "/tmp/" + idSource + "_" + new Date().toISOString().slice(0, 23).replace("T","_") + ".ogg";	
+	
+var logText = "";
+
+
 var cmd = "cvlc -vvv";
 	cmd += " --run-time=" + timeRecord;
 	//cmd += " --stop-time=" + timeRecord;
@@ -41,7 +53,7 @@ var cmd = "cvlc -vvv";
 		logText += data;
 
 		if(data.indexOf('writing header') != -1 ){
-			log("\n\nIniting record:\n" + radio + "\n\n");
+			log("\n\nIniting record:\n" + webSource + "\n\n");
 		}
 
 	});
@@ -53,7 +65,7 @@ var cmd = "cvlc -vvv";
 		}
 		else{
 			log('\n\nFinished');
-			callback(radio + "\n" + path);
+			callback(webSource + "\n" + path);
 		}
 	});
 
