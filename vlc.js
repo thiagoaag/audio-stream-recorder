@@ -6,17 +6,15 @@ module.exports = function(options, callback){
 var webSource = options.webSource || "record";
 	webSource = webSource.replace(/\s/g, "");
 
-var idSource = options.id || webSource;
-
 var url = options.url;
 
-if(url === undefined){
+if(url === undefined || url.trim() == ""){
 	return callback('Failed: url not defined');
 }
 	
 var timeRecord = options.time || 5;
 	
-var path = options.path || "/tmp/" + idSource + "_" + new Date().toISOString().slice(0, 23).replace("T","_") + ".ogg";	
+var path = options.path || "/tmp/" + webSource + "_" + new Date().toISOString().slice(0, 23).replace("T","_") + ".ogg";	
 	
 var logText = "";
 
