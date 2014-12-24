@@ -46,7 +46,7 @@ module.exports = function(options, callback){
 	cmd += "std{access=file,mux=ogg,dst=" + path + "}'";
 	cmd += " vlc://quit";
 	
-	//log("cmd: " + cmd);
+	log("cmd: " + cmd);
 
 	var vlc = exec(cmd, function(error, stdout, stderr){
 
