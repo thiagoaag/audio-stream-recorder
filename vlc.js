@@ -27,10 +27,9 @@ module.exports = function(options, callback){
 	if(path === undefined || path.trim() == ""){
 		path = "/tmp/" + fileName;
 	}else if(!fs.existsSync(path)){
-
 		fs.mkdirSync(path, 0766, function(err) {
 			if(err){
-				return callback("Failed: can't make the directory \n");
+				return callback("\nFailed: can't make the directory");
 			}
 		});
 	}else{
@@ -46,14 +45,13 @@ module.exports = function(options, callback){
 	cmd += "std{access=file,mux=ogg,dst=" + path + "}'";
 	cmd += " vlc://quit";
 	
-	log("cmd: " + cmd);
+	//log("cmd: " + cmd);
 
 	var vlc = exec(cmd, function(error, stdout, stderr){
-
 		if(error){
 			//log(error.stack);
 			console.log('Error code: ' + error.code);
-			return callback('Failed: command [clvc] not found');
+			return callback('\n Failed: command [clvc] not found');
 		}
 	});
 
@@ -68,18 +66,17 @@ module.exports = function(options, callback){
 		logText += data;
 
 		if(data.indexOf('writing header') != -1 ){
-			log("\n\nIniting record:\n" + webSource + "\n\n");
+			log("\nIniting record:" + webSource);
 		}
-
 	});
 
 		
 	vlc.on('exit', function(code){
 		if( logText.indexOf('demux error: Failed to connect') != -1 || logText.indexOf('is unable to open') != -1 ){
-			log('Connection failed: ' + url);
+			log('\nConnection failed: ' + url);
 		}
 		else{
-			log('\n\nFinished');
+			log('\nFinished');
 			callback(webSource + "\n" + path);
 		}
 	});
